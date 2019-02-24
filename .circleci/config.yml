@@ -1,15 +1,28 @@
 version: 2.1
 executors:
-  unity_exec: # declares a reusable executor
+  unity_exec:
     docker:
       - image: gableroux/unity3d:2018.3.4f1
+    parallelism: 2
     environment:
       BUILD_NAME: ExampleProjectName
 jobs:
-  build:
+  build_windows:
     executor: unity_exec
     environment:
       BUILD_TARGET: StandaloneWindows64
+    steps:
+      - run: apt update && apt -y install zip
+      - checkout
+      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+      - run: chmod +x ./ci/build.sh && ./ci/build.sh
+      - run: zip -r "build.zip" ./Builds/
+      - store_artifacts:
+          path: build.zip
+  build_osx:
+    executor: unity_exec
+    environment:
+      BUILD_TARGET: StandaloneOSX
     steps:
       - run: apt update && apt -y install zip
       - checkout
@@ -23,4 +36,5 @@ workflows:
   version: 2
   build:
     jobs:
-      - build
+      - build_windows
+      - build_osx
