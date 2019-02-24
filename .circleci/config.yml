@@ -1,4 +1,5 @@
 version: 2.1
+
 executors:
   unity_exec:
     docker:
@@ -19,8 +20,8 @@ executors:
     - run:
         name: Running tests
         command: chmod +x ./ci/test.sh && ./ci/test.sh
-  - store_artifacts:
-      path: $(pwd)/$TEST_PLATFORM-results.xml
+    - store_artifacts:
+        path: $(pwd)/$TEST_PLATFORM-results.xml
 
 .build: &build
   executor: unity_exec
@@ -66,6 +67,7 @@ jobs:
       TEST_PLATFORM: playmode
 
   deploy:
+    executor: webgl_deploy
     steps:
       - run: mv ./Builds/WebGL public
       - store_artifacts:
