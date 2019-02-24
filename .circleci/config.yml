@@ -13,8 +13,8 @@ jobs:
       BUILD_TARGET: StandaloneWindows64
     steps:
       - checkout
-      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-      - run: chmod +x ./ci/build.sh && ./ci/build.sh
+      - run: |
+      echo "$UNITY_LICENSE_CONTENT" | base64 --decode > /root/.local/share/unity3d/Unity/Unity_lic.ulf && chmod +x ./ci/build.sh && ./ci/build.sh
       - store_artifacts:
           path: ./Builds/
           
