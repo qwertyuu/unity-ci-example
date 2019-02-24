@@ -1,5 +1,4 @@
 defaults: &defaults
-  working_directory: ~/optania-api
   docker:
     - image: gableroux/unity3d:2018.3.4f1
       environment:
@@ -13,7 +12,8 @@ jobs:
       BUILD_TARGET: StandaloneWindows64
     steps:
       - checkout
-      - run: mkdir -p /root/.local/share/unity3d/Unity/ && echo "$UNITY_LICENSE_CONTENT" | base64 --decode > /root/.local/share/unity3d/Unity/Unity_lic.ulf && chmod +x ./ci/build.sh && ./ci/build.sh
+      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+      - run: chmod +x ./ci/build.sh && ./ci/build.sh
       - store_artifacts:
           path: ./Builds/
           
