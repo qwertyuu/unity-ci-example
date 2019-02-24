@@ -1,0 +1,25 @@
+defaults: &defaults
+  working_directory: ~/optania-api
+  docker:
+    - image: gableroux/unity3d:2018.2.6f1
+      environment:
+        - BUILD_NAME: ExampleProjectName
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    variables:
+      BUILD_TARGET: StandaloneWindows64
+    steps:
+      - checkout
+      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+      - run: chmod +x ./ci/build.sh && ./ci/build.sh
+      - store_artifacts:
+          path: ./Builds/
+          
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
