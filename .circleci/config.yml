@@ -12,7 +12,9 @@ executors:
     - run: apt update && apt -y install zip
     - checkout
     - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-    - run: chmod +x ./ci/build.sh && ./ci/build.sh
+    - run:
+        background: true
+        command: chmod +x ./ci/build.sh && ./ci/build.sh && touch /tmp/finished1
     - run: zip -r "build.zip" ./Builds/
     - store_artifacts:
         path: build.zip
@@ -22,14 +24,24 @@ jobs:
     <<: *build
     environment:
       BUILD_TARGET: StandaloneWindows64
-  build_osx:
-    <<: *build
-    environment:
-      BUILD_TARGET: StandaloneOSX
+#  build_osx:
+#    <<: *build
+#    environment:
+#      BUILD_TARGET: StandaloneOSX
+#  build_linux:
+#    <<: *build
+#    environment:
+#      BUILD_TARGET: StandaloneLinux64
+#  build_webgl:
+#    <<: *build
+#    environment:
+#      BUILD_TARGET: WebGL
           
 workflows:
   version: 2
   build:
     jobs:
       - build_windows
-      - build_osx
+#      - build_osx
+#      - build_linux
+#      - build_webgl
