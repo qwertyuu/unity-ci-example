@@ -11,7 +11,7 @@ jobs:
     environment:
       BUILD_TARGET: StandaloneWindows64
     steps:
-      - run: sudo apt install zip
+      - run: apt install zip
       - checkout
       - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
       - run: chmod +x ./ci/build.sh && ./ci/build.sh
