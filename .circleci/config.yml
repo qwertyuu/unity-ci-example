@@ -5,35 +5,31 @@ executors:
       - image: gableroux/unity3d:2018.3.4f1
     environment:
       BUILD_NAME: ExampleProjectName
+
+.build: &build
+  executor: unity_exec
+  steps:
+    - run: apt update && apt -y install zip
+    - checkout
+    - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - run: chmod +x ./ci/build.sh && ./ci/build.sh
+    - run: zip -r "build.zip" ./Builds/
+    - store_artifacts:
+        path: build.zip
+
 jobs:
   build_windows:
-    executor: unity_exec
+    <<: *build
     environment:
       BUILD_TARGET: StandaloneWindows64
-    steps:
-      - run: apt update && apt -y install zip
-      - checkout
-      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-      - run: chmod +x ./ci/build.sh && ./ci/build.sh
-      - run: zip -r "build.zip" ./Builds/
-      - store_artifacts:
-          path: build.zip
   build_osx:
-    executor: unity_exec
+    <<: *build
     environment:
       BUILD_TARGET: StandaloneOSX
-    steps:
-      - run: apt update && apt -y install zip
-      - checkout
-      - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-      - run: chmod +x ./ci/build.sh && ./ci/build.sh
-      - run: zip -r "build.zip" ./Builds/
-      - store_artifacts:
-          path: build.zip
           
 workflows:
   version: 2
-  build_windows:
+  build:
     jobs:
       - build_windows
       - build_osx
