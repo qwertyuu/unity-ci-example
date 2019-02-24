@@ -12,7 +12,6 @@ executors:
       BUILD_NAME: ExampleProjectName
 
 .test: &test
-  <<: *unity_before_script
   steps:
     - run: 
         name: Converting Unity license
@@ -65,7 +64,7 @@ jobs:
     <<: *test
     environment:
       TEST_PLATFORM: playmode
-      
+
   deploy:
     steps:
       - run: mv ./Builds/WebGL public
