@@ -11,13 +11,13 @@ jobs:
     environment:
       BUILD_TARGET: StandaloneWindows64
     steps:
-      - run: apt install zip
+      - run: apt update && apt install zip
       - checkout
       - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
       - run: chmod +x ./ci/build.sh && ./ci/build.sh
       - run: zip -r "build.zip" ./Builds/
       - store_artifacts:
-          path: ./Builds/build.zip
+          path: build.zip
           
 workflows:
   version: 2
