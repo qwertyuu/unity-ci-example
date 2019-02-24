@@ -12,9 +12,13 @@ executors:
     - run: apt update && apt -y install zip
     - checkout
     - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - run: chmod +x ./ci/build.sh
     - run:
         background: true
-        command: chmod +x ./ci/build.sh && ./ci/build.sh && touch /tmp/finished1
+        command: BUILD_TARGET=StandaloneWindows64 ./ci/build.sh && touch /tmp/finishedWindows
+    - run:
+        background: true
+        command: BUILD_TARGET=StandaloneOSX ./ci/build.sh && touch /tmp/finishedOSX
     - run: chmod +x ./ci/wait.sh && ./ci/wait.sh
     - run: zip -r "build.zip" ./Builds/
     - store_artifacts:
