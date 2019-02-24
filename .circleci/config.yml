@@ -14,8 +14,10 @@ jobs:
       - checkout
       - run: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
       - run: chmod +x ./ci/build.sh && ./ci/build.sh
+      - run: mkdir -p ./Builds/zip
+      - run: zip -r "./Builds/zip/build-$BUILD_TARGET.zip" ./Builds/
       - store_artifacts:
-          path: ./Builds/
+          path: ./Builds/zip/
           
 workflows:
   version: 2
