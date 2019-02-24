@@ -15,6 +15,7 @@ executors:
     - run:
         background: true
         command: chmod +x ./ci/build.sh && ./ci/build.sh && touch /tmp/finished1
+    - run: chmod +x ./ci/wait.sh && ./ci/wait.sh
     - run: zip -r "build.zip" ./Builds/
     - store_artifacts:
         path: build.zip
