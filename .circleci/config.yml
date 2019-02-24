@@ -1,13 +1,13 @@
-defaults: &defaults
-  docker:
-    - image: gableroux/unity3d:2018.3.4f1
-      environment:
-        - BUILD_NAME: ExampleProjectName
-
-version: 2
+version: 2.1
+executors:
+  unity_exec: # declares a reusable executor
+    docker:
+      - image: gableroux/unity3d:2018.3.4f1
+    environment:
+      BUILD_NAME: ExampleProjectName
 jobs:
   build:
-    <<: *defaults
+    executor: unity_exec
     environment:
       BUILD_TARGET: StandaloneWindows64
     steps:
