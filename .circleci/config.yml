@@ -36,6 +36,4 @@ workflows:
   build_windows:
     jobs:
       - build_windows
-  build_osx:
-    jobs:
       - build_osx
