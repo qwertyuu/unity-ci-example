@@ -9,7 +9,7 @@ version: 2
 jobs:
   build:
     <<: *defaults
-    variables:
+    environment:
       BUILD_TARGET: StandaloneWindows64
     steps:
       - checkout
