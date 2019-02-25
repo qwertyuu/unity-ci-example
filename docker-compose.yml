@@ -2,7 +2,7 @@ version: "2"
 
 services:
   unity3d:
-    image: gableroux/unity3d:2018.4.3f1
+    image: gableroux/unity3d:2018.3.4f1
 volumes:
   data:
     external: true
