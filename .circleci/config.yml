@@ -1,106 +1,17 @@
-version: 2.1
-
-executors:
-  unity_exec:
-    docker:
-      - image: gableroux/unity3d:2018.3.4f1
-    environment:
-      BUILD_NAME: ExampleProjectName
-
-.test: &test
-  executor: unity_exec
-  steps:
-    - checkout
-    - run: 
-        name: Converting Unity license
-        command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-    - run:
-        name: Running tests
-        command: chmod +x ./ci/test.sh && ./ci/test.sh
-    - store_artifacts:
-        path: $(pwd)/$TEST_PLATFORM-results.xml
-
-.build: &build
-  executor: unity_exec
-  steps:
-    - checkout
-    - run: 
-        name: Converting Unity license
-        command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-    - run:
-        name: Building game binaries
-        command: chmod +x ./ci/build.sh && ./ci/build.sh
-    - run: 
-        name: Zipping build
-        command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
-    - store_artifacts:
-        path: build.zip
-
+version: 2
 jobs:
-  test_editmode:
-    <<: *test
-    environment:
-      TEST_PLATFORM: editmode
-  test_playmode:
-    <<: *test
-    environment:
-      TEST_PLATFORM: playmode
+  build:
+    machine: true
 
-  build_windows:
-    <<: *build
-    environment:
-      BUILD_TARGET: StandaloneWindows64
-  build_osx:
-    <<: *build
-    environment:
-      BUILD_TARGET: StandaloneOSX
-  build_linux:
-    <<: *build
-    environment:
-      BUILD_TARGET: StandaloneLinux64
-  build_deploy_webgl:
-    executor: unity_exec
-    environment:
-      BUILD_TARGET: WebGL
     steps:
       - checkout
-      - run: 
-          name: Converting Unity license
-          command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-      - run:
-          name: Building game binaries
-          command: chmod +x ./ci/build.sh && ./ci/build.sh
-      - run: 
-          name: Zipping build
-          command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
-      - run:
-          name: Making build public
-          command: mv ./Builds/WebGL public
-      - store_artifacts:
-          path: public
-      - store_artifacts:
-          path: build.zip
-          
-workflows:
-  version: 2
-  build:
-    jobs:
-      - test_editmode
-      - test_playmode
 
-      - build_windows:
-          requires:
-            - test_editmode
-            - test_playmode
-      - build_osx:
-          requires:
-            - test_editmode
-            - test_playmode
-      - build_linux:
-          requires:
-            - test_editmode
-            - test_playmode
-      - build_deploy_webgl:
-          requires:
-            - test_editmode
-            - test_playmode
+      - setup_remote_docker
+      - run: docker volume create --name=data
+
+      - run:
+          name: Start container and verify it's working
+          command: |
+            set -x
+            docker-compose up -d
+            docker ps
