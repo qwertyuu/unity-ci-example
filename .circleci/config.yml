@@ -6,9 +6,6 @@ executors:
       - image: gableroux/unity3d:2018.3.4f1
     environment:
       BUILD_NAME: ExampleProjectName
-  webgl_deploy:
-    docker:
-      - image: alpine:latest
 
 .test: &test
   executor: unity_exec
@@ -40,6 +37,15 @@ executors:
         path: build.zip
 
 jobs:
+  test_editmode:
+    <<: *test
+    environment:
+      TEST_PLATFORM: editmode
+  test_playmode:
+    <<: *test
+    environment:
+      TEST_PLATFORM: playmode
+
   build_windows:
     <<: *build
     environment:
@@ -52,26 +58,26 @@ jobs:
     <<: *build
     environment:
       BUILD_TARGET: StandaloneLinux64
-  build_webgl:
-    <<: *build
-    environment:
-      BUILD_TARGET: WebGL
-
-  test_editmode:
-    <<: *test
-    environment:
-      TEST_PLATFORM: editmode
-  test_playmode:
-    <<: *test
-    environment:
-      TEST_PLATFORM: playmode
-
-  deploy:
-    executor: webgl_deploy
+  build_deploy_webgl:
+    executor: unity_exec
     steps:
-      - run: mv ./Builds/WebGL public
+      - checkout
+      - run: 
+          name: Converting Unity license
+          command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+      - run:
+          name: Building game binaries
+          command: chmod +x ./ci/build.sh && ./ci/build.sh
+      - run: 
+          name: Zipping build
+          command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
+      - run:
+          name: Making build public
+          command: mv ./Builds/WebGL public
       - store_artifacts:
           path: public
+      - store_artifacts:
+          path: build.zip
           
 workflows:
   version: 2
@@ -79,6 +85,7 @@ workflows:
     jobs:
       - test_editmode
       - test_playmode
+
       - build_windows:
           requires:
             - test_editmode
@@ -91,10 +98,7 @@ workflows:
           requires:
             - test_editmode
             - test_playmode
-      - build_webgl:
+      - build_deploy_webgl:
           requires:
             - test_editmode
             - test_playmode
-      - deploy:
-          requires:
-            - build_webgl
