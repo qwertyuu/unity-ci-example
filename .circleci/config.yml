@@ -60,6 +60,8 @@ jobs:
       BUILD_TARGET: StandaloneLinux64
   build_deploy_webgl:
     executor: unity_exec
+    environment:
+      BUILD_TARGET: WebGL
     steps:
       - checkout
       - run: 
