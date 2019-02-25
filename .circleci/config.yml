@@ -19,7 +19,7 @@ jobs:
           name: Start container
           command: |
             set -x
-            docker run -d --name unity3d -v /root/project:/root/project -w /root/project gableroux/unity3d:2018.3.4f1
+            docker run -d -t --name unity3d -v /root/project:/root/project -w /root/project gableroux/unity3d:2018.3.4f1
 
       - run: |
             docker ps
