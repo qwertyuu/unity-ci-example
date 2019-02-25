@@ -8,6 +8,9 @@ jobs:
 
       - run: docker volume create --name=data
 
+      - restore_cache:
+          keys:
+            - test
       - run:
           name: Start container and verify it's working
           command: |
