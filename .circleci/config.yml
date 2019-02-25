@@ -6,14 +6,14 @@ jobs:
     steps:
       - checkout
 
-      - run: docker volume create --name=data
-
       - restore_cache:
           keys:
             - test1
       - restore_cache:
           keys:
             - test2
+      - run: docker pull gableroux/unity3d:2018.3.4f1
+      - run: ls /var/lib/docker
       - run: ls
       - run:
           name: Start container and verify it's working

@@ -4,7 +4,5 @@ services:
   unity3d:
     image: gableroux/unity3d:2018.3.4f1
     volumes:
-      - data:/root/project
-volumes:
-  data:
-    external: true
+      - /root/project:/root/project
+    tty: true
