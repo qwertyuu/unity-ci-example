@@ -10,7 +10,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - test
+            - test1
       - run:
           name: Start container and verify it's working
           command: |
@@ -18,11 +18,11 @@ jobs:
             docker-compose up -d
 
       - save_cache:
-          key: test
+          key: test1
           paths:
-            - "/root/project"
+            - "/var/lib/docker"
 
       - run: |
             docker-compose ps
-            docker-compose exec project_unity3d /ci/before_script.sh
-            docker-compose exec -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 project_unity3d /ci/build.sh
+            docker-compose exec unity3d sh -c 'chmod +x ./ci/before_script.sh && ./ci/before_script.sh'
+            docker-compose exec -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d sh -c 'chmod +x ./ci/build.sh && ./ci/build.sh'
