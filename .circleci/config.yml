@@ -95,3 +95,6 @@ workflows:
           requires:
             - test_editmode
             - test_playmode
+      - deploy:
+          requires:
+            - build_webgl
