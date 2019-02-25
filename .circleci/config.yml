@@ -19,7 +19,7 @@ executors:
 
 .test: &test
   executor: unity_exec
-    <<: *default_steps
+  <<: *default_steps
   steps:
     - run:
         name: Running tests
