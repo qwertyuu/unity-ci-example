@@ -11,6 +11,7 @@ executors:
       - image: alpine:latest
 
 .test: &test
+  executor: unity_exec
   steps:
     - run: 
         name: Converting Unity license
@@ -73,8 +74,6 @@ jobs:
           
 workflows:
   version: 2
-  test:
-    jobs:
   build:
     jobs:
       - test_editmode
