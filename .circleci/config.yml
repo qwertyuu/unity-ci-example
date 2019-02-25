@@ -16,6 +16,13 @@ jobs:
           command: |
             set -x
             docker-compose up -d
+
+      - save_cache:
+          key: test
+          paths:
+            - "/root/project"
+
+      - run: |
             docker-compose ps
             docker-compose exec unity3d /ci/before_script.sh
             docker-compose exec -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d /ci/build.sh

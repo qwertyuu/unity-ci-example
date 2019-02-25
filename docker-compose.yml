@@ -3,8 +3,8 @@ version: "2"
 services:
   unity3d:
     image: gableroux/unity3d:2018.3.4f1
-    #volumes:
-    #  - data:/tmp
+    volumes:
+      - data:/root/project
 volumes:
   data:
     external: true
