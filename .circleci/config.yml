@@ -4,6 +4,7 @@ jobs:
     machine: true
 
     steps:
+      - checkout
       - restore_cache:
           keys:
             - test5
@@ -13,7 +14,6 @@ jobs:
           paths:
             - docker-cache
 
-      - checkout
 
       - run:
           name: Start container
