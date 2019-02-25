@@ -1,0 +1,8 @@
+version: "2"
+
+services:
+  unity3d:
+    image: gableroux/unity3d:2018.4.3f1
+volumes:
+  data:
+    external: true
