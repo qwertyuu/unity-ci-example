@@ -9,8 +9,6 @@ executors:
   webgl_deploy:
     docker:
       - image: alpine:latest
-    environment:
-      BUILD_NAME: ExampleProjectName
 
 .test: &test
   steps:
@@ -75,9 +73,25 @@ jobs:
           
 workflows:
   version: 2
+  test:
+    jobs:
   build:
     jobs:
-      - build_windows
-      - build_osx
-      - build_linux
-      - build_webgl
+      - test_editmode
+      - test_playmode
+      - build_windows:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_osx:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_linux:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_webgl:
+          requires:
+            - test_editmode
+            - test_playmode
