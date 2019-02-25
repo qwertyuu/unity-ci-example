@@ -9,18 +9,14 @@ executors:
   webgl_deploy:
     docker:
       - image: alpine:latest
-  
-.default_steps: &default_steps
+
+.test: &test
+  executor: unity_exec
   steps:
     - checkout
     - run: 
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-
-.test: &test
-  executor: unity_exec
-  <<: *default_steps
-  steps:
     - run:
         name: Running tests
         command: chmod +x ./ci/test.sh && ./ci/test.sh
@@ -29,8 +25,11 @@ executors:
 
 .build: &build
   executor: unity_exec
-  <<: *default_steps
   steps:
+    - checkout
+    - run: 
+        name: Converting Unity license
+        command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
     - run:
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
