@@ -11,16 +11,26 @@ jobs:
       - restore_cache:
           keys:
             - test1
+      - restore_cache:
+          keys:
+            - test2
+      - run: ls
       - run:
           name: Start container and verify it's working
           command: |
             set -x
             docker-compose up -d
 
+      - run: ls
+      - run: ls /var/lib/docker
       - save_cache:
           key: test1
           paths:
             - "/var/lib/docker"
+      - save_cache:
+          key: test2
+          paths:
+            - "/project/unity3d"
 
       - run: |
             docker-compose ps
