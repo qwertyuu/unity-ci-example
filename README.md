@@ -1,11 +1,10 @@
 # unity3d ci example
 
-[![pipeline status](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/badges/master/pipeline.svg)](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/commits/master)
-[![Build Status](https://travis-ci.com/GabLeRoux/unity3d-ci-example.svg?branch=master)](https://travis-ci.com/GabLeRoux/unity3d-ci-example)
+[![CircleCI](https://circleci.com/gh/qwertyuu/unity-ci-example.svg?style=svg)](https://circleci.com/gh/qwertyuu/unity-ci-example)
 
-This project is a PoC to **run unity3d tests and builds inside a CI** using [gableroux/unity3d docker image](https://hub.docker.com/r/gableroux/unity3d/). It currently creates builds for Windows, Linux, MacOS and webgl. The webgl build is published by the CI to [gitlab-pages](https://about.gitlab.com/features/pages/) and [github-pages]()! This repository is hosted on multiple remotes to provide examples for [Gitlab-CI](), [Travis]() and [CircleCI]():
+This project is a PoC to **run unity3d tests and builds inside a CI** using [gableroux/unity3d docker image](https://hub.docker.com/r/gableroux/unity3d/). It currently creates builds for Windows, Linux, MacOS and webgl. The webgl build is published and accessible via the public artifact folder of your webgl job! This repository is hosted on multiple remotes to provide examples:
 
-* [github](https://github.com/gableroux/unity3d-ci-example)
+* [github](https://github.com/qwertyuu/unity-ci-example)
 * [gitlab](https://gitlab.com/gableroux/unity3d-gitlab-ci-example)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -14,21 +13,14 @@ This project is a PoC to **run unity3d tests and builds inside a CI** using [gab
 
 - [Getting started](#getting-started)
 - [Points of interest](#points-of-interest)
-    - [Build script](#build-script)
-    - [CI Configuration](#ci-configuration)
-        - [gitlab-ci](#gitlab-ci)
-        - [WIP: CircleCI](#wip-circleci)
-        - [Travis](#travis)
-    - [Test files](#test-files)
+  - [Build script](#build-script)
+  - [CI Configuration](#ci-configuration)
+  - [Test files](#test-files)
 - [How to activate](#how-to-activate)
-    - [Travis](#travis-1)
 - [How to add build targets](#how-to-add-build-targets)
-    - [gitlab-ci](#gitlab-ci-1)
-    - [iOS support](#ios-support)
-    - [Android support](#android-support)
 - [How to run scripts manually](#how-to-run-scripts-manually)
-    - [Test](#test)
-    - [Build](#build)
+  - [Test](#test)
+  - [Build](#build)
 - [Shameless plug](#shameless-plug)
 - [License](#license)
 
@@ -63,21 +55,7 @@ Script passed to the unity3d command line as argument to create builds
 
 ### CI Configuration
 
-Pick one, if you're on gitlab, use gitlab-ci as Travis and CircleCI don't support Gitlab as of september 2018, if you're on github, Travis is more popular but CircleCI and [gitlab-ci will also work](https://about.gitlab.com/features/github/). If you can't decide, see [CircleCI vs. GitLab CI/CD](https://about.gitlab.com/comparison/gitlab-vs-circleci.html) and [Travis CI vs GitLab](https://about.gitlab.com/comparison/travis-ci-vs-gitlab.html).
-
-#### gitlab-ci
-
-* [`.gitlab-ci.yml`](.gitlab-ci.yml)
-
-#### WIP: CircleCI
-
-**TODO**
-
-* [`.circleci/config.yml`](.circleci/config.yml)
-
-#### Travis
-
-* [`.travis.yml`](.travis.yml)
+This project will only cover Circle-CI. If you need more information on the gitlab and Travis implementations, go to https://gitlab.com/gableroux/unity3d-gitlab-ci-example
 
 ### Test files
 
@@ -130,45 +108,12 @@ You'll first need to run this locally. All you need is [docker](https://www.dock
 7. Upload `unity3d.alf` for manual activation
 8. Download `Unity_v2018.x.ulf`
 9. Copy the content of `Unity_v2018.x.ulf` license file to your CI's environment variable `UNITY_LICENSE_CONTENT`.
-   _Note: if you are doing this on windows, chances are the [line endings will be wrong as explained here](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/issues/5#note_95831816). Luckily for you, [`.gitlab-ci.yml`](.gitlab-ci.yml) solves this by removing `\r` character from the env variable so you'll be alright_
-[`.gitlab-ci.yml`](.gitlab-ci.yml) will then place the `UNITY_LICENSE_CONTENT` to the right place before running tests or creating the builds.
-
-### Travis
-
-Travis doesn't support multiple-lines env variable out of the box and I had troubles with escaping so I recommend encrypting the license file. `.travis.yml` will decrypt the file and add its content to `UNITY_LICENSE_CONTENT` env var itself afterward.
-
-```bash
-travis encrypt-file --pro -r YOUR_TRAVIS_USERNAME/YOUR_TRAVIS_REPO_NAME ./Unity_v2018.x.ulf
-```
-
-For the record, the message I was getting:
-
-> The previous command failed, possibly due to a malformed secure environment variable.
->  Please be sure to escape special characters such as ' ' and '$'.
->  For more information, see https://docs.travis-ci.com/user/encryption-keys.
+   _Note: if you are doing this on windows, chances are the [line endings will be wrong as explained here](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/issues/5#note_95831816). Luckily for you, [`./circleci/config.yml`](./circleci/config.yml) solves this by removing `\r` character from the env variable so you'll be alright_
+[`./circleci/config.yml`](./circleci/config.yml) will then place the `UNITY_LICENSE_CONTENT` to the right place before running tests or creating the builds.
 
 ## How to add build targets
 
 Supported build targets can be found [here](https://docs.unity3d.com/ScriptReference/BuildTarget.html)
-
-### gitlab-ci
-
-Update [`.gitlab-ci.yml`](.gitlab-ci.yml) by adding a build section like this:
-
-```yaml
-build-StandaloneWindows64:
-  <<: *build
-  variables:
-    BUILD_TARGET: StandaloneWindows64
-```
-
-### iOS support
-
-**Help wanted!** See [#16](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/issues/16)
-
-### Android support
-
-**Help wanted!** See [#17](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/issues/17)
 
 ## How to run scripts manually
 
@@ -177,20 +122,20 @@ You can execute the local scripts and specify the path of your Unity executable 
 ### Test
 
 ```bash
-UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.2.6f1/Unity.app/Contents/MacOS/Unity" \
+UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
   ./local_test.sh
 ```
 
 ### Build
 
 ```bash
-UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.2.6f1/Unity.app/Contents/MacOS/Unity" \
+UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
   ./local_build.sh
 ```
 
 ## Shameless plug
 
-I made this for free as a gift to the video game community so if this tool helped you, I would be very happy if you'd like to support me, support [Totema Studio](https://totemastudio.com) on Patreon: :beers:
+Gabriel Lebreton and I made this for free as a gift to the video game community so if this tool helped you, I would be very happy if you'd like to support me, support [Totema Studio](https://totemastudio.com) on Patreon: :beers:
 
 [![Totema Studio Logo](./doc/totema-studio-logo-217.png)](https://patreon.com/totemastudio)
 
@@ -198,4 +143,4 @@ I made this for free as a gift to the video game community so if this tool helpe
 
 ## License
 
-[MIT](LICENSE.md) © [Gabriel Le Breton](https://gableroux.com)
+[MIT](LICENSE.md) © Raphaël Côté
