@@ -23,5 +23,5 @@ jobs:
 
       - run: |
             docker ps
-            docker run -ti unity3d sh -c 'chmod +x ./ci/before_script.sh && ./ci/before_script.sh'
-            docker run -ti -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d sh -c 'chmod +x ./ci/build.sh && ./ci/build.sh'
+            docker exec -ti unity3d sh -c 'chmod +x ./ci/before_script.sh && ./ci/before_script.sh'
+            docker exec -ti -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d sh -c 'chmod +x ./ci/build.sh && ./ci/build.sh'
