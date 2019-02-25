@@ -4,35 +4,24 @@ jobs:
     machine: true
 
     steps:
-      - checkout
 
       - restore_cache:
           keys:
-            - test1
-      - restore_cache:
-          keys:
-            - test2
+            - test4
       - run: docker pull gableroux/unity3d:2018.3.4f1
-      - run: sudo ls /var/lib/docker
-      - run: ls
       - run:
-          name: Start container and verify it's working
+          name: Start container
           command: |
             set -x
-            docker-compose up -d
+            docker run -d --name unity3d -v /root/project:/root/project -w /root/project gableroux/unity3d:2018.3.4f1
 
       - run: ls
-      - run: ls /var/lib/docker
       - save_cache:
-          key: test1
+          key: test4
           paths:
             - "/var/lib/docker"
-      - save_cache:
-          key: test2
-          paths:
-            - "/project/unity3d"
 
       - run: |
-            docker-compose ps
-            docker-compose exec unity3d sh -c 'chmod +x ./ci/before_script.sh && ./ci/before_script.sh'
-            docker-compose exec -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d sh -c 'chmod +x ./ci/build.sh && ./ci/build.sh'
+            docker ps
+            docker run -ti unity3d sh -c 'chmod +x ./ci/before_script.sh && ./ci/before_script.sh'
+            docker run -ti -e BUILD_NAME=ExampleProjectName -e BUILD_TARGET=StandaloneWindows64 unity3d sh -c 'chmod +x ./ci/build.sh && ./ci/build.sh'
