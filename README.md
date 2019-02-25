@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/qwertyuu/unity-ci-example.svg?style=svg)](https://circleci.com/gh/qwertyuu/unity-ci-example)
 
+_Note: This project is a "fork" of https://gitlab.com/gableroux/unity3d-gitlab-ci-example. More information available there._
+
 This project is a PoC to **run unity3d tests and builds inside a CI** using [gableroux/unity3d docker image](https://hub.docker.com/r/gableroux/unity3d/). It currently creates builds for Windows, Linux, MacOS and webgl. The webgl build is published and accessible via the public artifact folder of your webgl job! This repository is hosted on multiple remotes to provide examples:
 
 * [github](https://github.com/qwertyuu/unity-ci-example)
