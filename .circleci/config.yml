@@ -26,7 +26,8 @@ executors:
     - checkout
     - run: apt update && apt install -y git
     - run: git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
-    - run: mv -f unity-ci-build-scripts/Assets /Assets
+    - run: ls -R
+    - run: mv -f unity-ci-build-scripts/Assets/Editor ./Assets
     - run: ls -R
     - run: 
         name: Converting Unity license
