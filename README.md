@@ -60,7 +60,7 @@ This project will only cover Circle-CI. If you need more information on the gitl
 
 ### Test files
 
-* [`editmode` tests in `Assets/Scripts/Editor/EditModeTests`](Assets/Scripts/Editor/EditModeTests)
+* [`editmode` tests in `Assets/Scripts/Editor/EditModeTests`](Assets/Editor/EditModeExampleTests.cs)
 * [`playmode` tests in `Assets/Tests/`](Assets/Tests/)
 
 ## How to activate
