@@ -41,9 +41,8 @@ If you already have your own project:
 
 1. Copy desired CI file
 2. Update the Unity version according to your project version in the CI file. All versions are available at [gableroux/unity3d docker image](https://hub.docker.com/r/gableroux/unity3d/)
-3. Copy build script (make sure you use the same path as original project, it must be in an `Editor` folder)
-4. Follow How to activate instructions
-5. Configure your CI
+3. Follow How to activate instructions
+4. Configure your CI
 
 ## Points of interest
 
@@ -53,7 +52,7 @@ This is probably what you're looking for.
 
 Script passed to the unity3d command line as argument to create builds
 
-* See [`BuildScript.cs`](Assets/Scripts/Editor/BuildCommand.cs)
+* See [`BuildCommand.cs`](https://github.com/qwertyuu/unity-ci-build-scripts/blob/master/Assets/Editor/BuildCommand.cs)
 
 ### CI Configuration
 
