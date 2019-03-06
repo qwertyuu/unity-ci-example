@@ -92,4 +92,22 @@ workflows:
   version: 2
   build:
     jobs:
-      - build_windows
+      - test_editmode
+      - test_playmode
+
+      - build_windows:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_osx:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_linux:
+          requires:
+            - test_editmode
+            - test_playmode
+      - build_deploy_webgl:
+          requires:
+            - test_editmode
+            - test_playmode 
