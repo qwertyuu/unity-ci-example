@@ -78,13 +78,13 @@ jobs:
       BUILD_TARGET: WebGL
     steps:
       - checkout
-    - run:
-        name: Fetching build scripts
-        command: |
-          apt update && apt install -y git 
-          git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
-          mv -f unity-ci-build-scripts/Assets/Editor ./Assets
-          mv -f unity-ci-build-scripts/ci ./ci
+      - run:
+          name: Fetching build scripts
+          command: |
+            apt update && apt install -y git 
+            git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
+            mv -f unity-ci-build-scripts/Assets/Editor ./Assets
+            mv -f unity-ci-build-scripts/ci ./ci
       - run: 
           name: Converting Unity license
           command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
