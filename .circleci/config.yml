@@ -36,7 +36,7 @@ executors:
         command: |
           apt update && apt install -y git 
           git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
-          if [ $(git ls-remote https://github.com/qwertyuu/unity-ci-build-scripts.git 2018.3.4f1 | wc -l) -eq 1 ]; then cd unity-ci-build-scripts && git pull origin 2018.3.4f1 && cd ..; fi
+          UNITY_VERSION=2018.3.4f1; if [ $(git ls-remote https://github.com/qwertyuu/unity-ci-build-scripts.git "$UNITY_VERSION" | wc -l) -eq 1 ]; then cd unity-ci-build-scripts && git pull origin "$UNITY_VERSION" && cd ..; fi
           cp -r unity-ci-build-scripts/Assets/Editor ./Assets
           cp -r unity-ci-build-scripts/ci ./ci
     - run: 
