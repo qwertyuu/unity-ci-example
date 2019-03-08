@@ -16,6 +16,12 @@ executors:
         command: |
           apt update && apt install -y git 
           git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
+    - run:
+        name: Getting build scripts for your unity version if possible
+        command: UNITY_VERSION=2019.3.4f1; if [ $(git ls-remote https://github.com/qwertyuu/unity-ci-build-scripts.git "$UNITY_VERSION" | wc -l) -eq 1 ]; then cd unity-ci-build-scripts && git pull origin "$UNITY_VERSION" && cd ..; fi
+    - run:
+        name: Injecting build scripts into the project
+        command: |
           cp -r unity-ci-build-scripts/Assets/Editor ./Assets
           cp -r unity-ci-build-scripts/ci ./ci
     - run: 
@@ -36,7 +42,12 @@ executors:
         command: |
           apt update && apt install -y git 
           git clone https://github.com/qwertyuu/unity-ci-build-scripts.git
-          UNITY_VERSION=2019.3.4f1; if [ $(git ls-remote https://github.com/qwertyuu/unity-ci-build-scripts.git "$UNITY_VERSION" | wc -l) -eq 1 ]; then cd unity-ci-build-scripts && git pull origin "$UNITY_VERSION" && cd ..; fi
+    - run:
+        name: Getting build scripts for your unity version if possible
+        command: UNITY_VERSION=2019.3.4f1; if [ $(git ls-remote https://github.com/qwertyuu/unity-ci-build-scripts.git "$UNITY_VERSION" | wc -l) -eq 1 ]; then cd unity-ci-build-scripts && git pull origin "$UNITY_VERSION" && cd ..; fi
+    - run:
+        name: Injecting build scripts into the project
+        command: |
           cp -r unity-ci-build-scripts/Assets/Editor ./Assets
           cp -r unity-ci-build-scripts/ci ./ci
     - run: 
@@ -82,4 +93,22 @@ workflows:
   version: 2
   build:
     jobs:
-      - build_windows
+      - test_editmode
+      - test_playmode
+      
+      - build_windows:
+          requires:
+          - test_editmode
+          - test_playmode
+      - build_osx:
+          requires:
+          - test_editmode
+          - test_playmode
+      - build_linux:
+          requires:
+          - test_editmode
+          - test_playmode
+      - build_webgl:
+          requires:
+          - test_editmode
+          - test_playmode
