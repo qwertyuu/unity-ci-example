@@ -41,9 +41,8 @@ If you already have your own project:
 
 1. Copy desired CI file
 2. Update the Unity version according to your project version in the CI file. All versions are available at [gableroux/unity3d docker image](https://hub.docker.com/r/gableroux/unity3d/)
-3. Copy build script (make sure you use the same path as original project, it must be in an `Editor` folder)
-4. Follow How to activate instructions
-5. Configure your CI
+3. Follow How to activate instructions
+4. Configure your CI
 
 ## Points of interest
 
@@ -53,7 +52,7 @@ This is probably what you're looking for.
 
 Script passed to the unity3d command line as argument to create builds
 
-* See [`BuildScript.cs`](Assets/Scripts/Editor/BuildCommand.cs)
+* See [`BuildCommand.cs`](https://github.com/qwertyuu/unity-ci-build-scripts/blob/master/Assets/Editor/BuildCommand.cs)
 
 ### CI Configuration
 
@@ -61,7 +60,7 @@ This project will only cover Circle-CI. If you need more information on the gitl
 
 ### Test files
 
-* [`editmode` tests in `Assets/Scripts/Editor/EditModeTests`](Assets/Scripts/Editor/EditModeTests)
+* [`editmode` tests in `Assets/Scripts/Editor/EditModeTests`](Assets/Editor/EditModeExampleTests.cs)
 * [`playmode` tests in `Assets/Tests/`](Assets/Tests/)
 
 ## How to activate
@@ -119,9 +118,10 @@ Supported build targets can be found [here](https://docs.unity3d.com/ScriptRefer
 
 ## How to run scripts manually
 
-You can execute the local scripts and specify the path of your Unity executable using `UNITY_EXECUTABLE`. You may try this in your project before you setup the whole CI so you confirm it works with your current unity version :+1:
+You can execute the local scripts and specify the path of your Unity executable using `UNITY_EXECUTABLE`. You may try this in your project before you setup the whole CI so you confirm it works with your current unity version :+1: . All you need to do first is to insert the scripts from https://github.com/qwertyuu/unity-ci-build-scripts in `Assets/Editor` into your own `Assets` folder and follow the commands below.
 
 ### Test
+
 
 ```bash
 UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
