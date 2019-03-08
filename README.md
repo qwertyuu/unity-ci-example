@@ -108,9 +108,8 @@ You'll first need to run this locally. All you need is [docker](https://www.dock
 6. Open https://license.unity3d.com/manual and answer questions
 7. Upload `unity3d.alf` for manual activation
 8. Download `Unity_v2018.x.ulf`
-9. Copy the content of `Unity_v2018.x.ulf` license file to your CI's environment variable `UNITY_LICENSE_CONTENT`.
-   _Note: if you are doing this on windows, chances are the [line endings will be wrong as explained here](https://gitlab.com/gableroux/unity3d-gitlab-ci-example/issues/5#note_95831816). Luckily for you, [`./circleci/config.yml`](./circleci/config.yml) solves this by removing `\r` character from the env variable so you'll be alright_
-[`./circleci/config.yml`](./circleci/config.yml) will then place the `UNITY_LICENSE_CONTENT` to the right place before running tests or creating the builds.
+9. Open the `Unity_v2018.x.ulf` file in your favorite text editor and convert it to Base64 (ex.: here: https://www.base64encode.org/)
+10. Copy the base64 data to Circle CI's environment variable `UNITY_LICENSE_CONTENT`.
 
 ## How to add build targets
 
