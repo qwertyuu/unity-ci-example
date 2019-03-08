@@ -124,14 +124,14 @@ You can execute the local scripts and specify the path of your Unity executable 
 
 
 ```bash
-UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
+UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.2.6f1/Unity.app/Contents/MacOS/Unity" \
   ./local_test.sh
 ```
 
 ### Build
 
 ```bash
-UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
+UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.2.6f1/Unity.app/Contents/MacOS/Unity" \
   ./local_build.sh
 ```
 
