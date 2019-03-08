@@ -53,9 +53,16 @@ executors:
     - run: 
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - restore_cache:
+        keys:
+          - build-v1-
     - run:
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
+    - save_cache:
+        key: build-v1-
+        paths:
+          - "./Builds/"
     - run: 
         name: Zipping build
         command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
@@ -93,22 +100,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - test_editmode
-      - test_playmode
-      
-      - build_windows:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_osx:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_linux:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_webgl:
-          requires:
-          - test_editmode
-          - test_playmode
+      - build_windows
