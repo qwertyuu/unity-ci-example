@@ -118,9 +118,10 @@ Supported build targets can be found [here](https://docs.unity3d.com/ScriptRefer
 
 ## How to run scripts manually
 
-You can execute the local scripts and specify the path of your Unity executable using `UNITY_EXECUTABLE`. You may try this in your project before you setup the whole CI so you confirm it works with your current unity version :+1:
+You can execute the local scripts and specify the path of your Unity executable using `UNITY_EXECUTABLE`. You may try this in your project before you setup the whole CI so you confirm it works with your current unity version :+1: . All you need to do first is to insert the scripts from https://github.com/qwertyuu/unity-ci-build-scripts in `Assets/Editor` into your own `Assets` folder and follow the commands below.
 
 ### Test
+
 
 ```bash
 UNITY_EXECUTABLE="/Applications/Unity/Hub/Editor/2018.3.4f1/Unity.app/Contents/MacOS/Unity" \
