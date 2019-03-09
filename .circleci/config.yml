@@ -53,6 +53,7 @@ executors:
     - run: 
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - run: ls -ls /usr/bin/python*
     - run:
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
