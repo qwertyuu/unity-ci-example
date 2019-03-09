@@ -58,7 +58,7 @@ executors:
           - build-webgl-v1-
     - run:
         name: Monitoring memory usage
-        command: FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt; while true; do ps eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done;
+        command: FILE=memory-usage-actual.txt; while true; do ps eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done;
         background: true
     - run:
         name: Building game binaries
@@ -72,6 +72,8 @@ executors:
         command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
     - store_artifacts:
         path: build.zip
+    - store_artifacts:
+        path: memory-usage-actual.txt
 
 jobs:
   test_editmode:
