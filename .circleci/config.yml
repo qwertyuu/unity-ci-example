@@ -54,7 +54,7 @@ executors:
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
     - run: ls -ls /usr/bin/python*
-    - run:
+    - run: 
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
     - run: 
@@ -94,22 +94,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - test_editmode
-      - test_playmode
-      
-      - build_windows:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_osx:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_linux:
-          requires:
-          - test_editmode
-          - test_playmode
-      - build_webgl:
-          requires:
-          - test_editmode
-          - test_playmode
+      - build_webgl
