@@ -58,7 +58,7 @@ executors:
           - build-webgl-v1-
     - run:
         name: Monitoring memory usage
-        command: FILE=memory-usage-actual.txt; while true; do ps eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done;
+        command: FILE=memory-usage-actual.txt; while true; do ps -A eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep .5; done;
         background: true
     - run:
         name: Building game binaries
