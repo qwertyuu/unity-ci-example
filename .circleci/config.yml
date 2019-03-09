@@ -54,8 +54,8 @@ executors:
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
     - run: |
-        rm /usr/local/bin/python
-        ln -s /usr/local/bin/python3.5 /usr/local/bin/python
+        rm /usr/bin/python
+        ln -s /usr/local/bin/python3.5 /usr/bin/python
     - run: 
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
