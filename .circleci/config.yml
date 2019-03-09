@@ -58,7 +58,7 @@ executors:
           - build-webgl-v1-
     - run:
         name: Monitoring memory usage
-        command: FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt; while true; do ps -u docker eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1;
+        command: FILE=$CIRCLE_ARTIFACTS/memory-usage-actual.txt; while true; do ps -u docker eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep 1; done;
         background: true
     - run:
         name: Building game binaries
