@@ -61,8 +61,6 @@ executors:
         command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
     - store_artifacts:
         path: build.zip
-    - store_artifacts:
-        path: memory-usage-actual.txt
 
 jobs:
   test_editmode:
