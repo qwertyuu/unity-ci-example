@@ -53,20 +53,9 @@ executors:
     - run: 
         name: Converting Unity license
         command: chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-    - restore_cache:
-        keys:
-          - build-webgl-v1-
-    - run:
-        name: Monitoring memory usage
-        command: FILE=memory-usage-actual.txt; while true; do ps -A eo pid,%cpu,%mem,args,uname --sort=-%mem >> $FILE; echo "----------" >> $FILE; sleep .5; done;
-        background: true
     - run:
         name: Building game binaries
         command: chmod +x ./ci/build.sh && ./ci/build.sh
-    - save_cache:
-        key: build-webgl-v1-
-        paths:
-          - "./Builds/"
     - run: 
         name: Zipping build
         command: apt update && apt -y install zip && zip -r "build.zip" ./Builds/
