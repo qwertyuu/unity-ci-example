@@ -109,7 +109,8 @@ workflows:
           requires:
           - test_editmode
           - test_playmode
-      - build_webgl:
-          requires:
-          - test_editmode
-          - test_playmode
+# Sadly webgl builds seem broken as of now... trying to fix this asap.
+#      - build_webgl:
+#          requires:
+#          - test_editmode
+#          - test_playmode
